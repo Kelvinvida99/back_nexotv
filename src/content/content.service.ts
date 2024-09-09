@@ -66,10 +66,18 @@ export class ContentService {
     id: string,
     updateContenidoInput: UpdateContentInput,
   ): Promise<Content> {
+    const { amount, ...rest } = updateContenidoInput;
+
+    const { rate, counterRate } = await this.contenidoRepository.findOneBy({
+      id,
+    });
+
     try {
       const contenido = await this.contenidoRepository.preload({
         id,
-        ...updateContenidoInput,
+        rate: rate + amount,
+        counterRate: counterRate + 1,
+        ...rest,
       });
 
       if (!contenido) {
@@ -118,6 +126,13 @@ export class ContentService {
     } catch (error) {
       this.handleDbErros(error);
     }
+  }
+
+  async getRate(id: string) {
+    const { rate, counterRate } = await this.contenidoRepository.findOneBy({
+      id,
+    });
+    return rate / counterRate;
   }
 
   private handleDbErros(error: any): never {

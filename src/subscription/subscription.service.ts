@@ -22,6 +22,14 @@ export class SubscriptionService {
 
   private logger = new Logger('SubscriptionServices');
 
+  async getSubscription(userId: string) {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+    const subscription = await this.subscriptionRepository.findOne({
+      where: { user },
+    });
+    return subscription;
+  }
+
   async defaultSubscription(id: string): Promise<Subscription> {
     const user = await this.findOneByUserId(id);
     if (!user) throw new NotFoundException('User not found');

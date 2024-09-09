@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { ViewHistory } from 'src/view-history/entities/view-history.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
@@ -57,6 +57,13 @@ export class Content {
   @Field(() => [String])
   @Column('varchar', { array: true, default: [] })
   contentUrl: string[];
+
+  @Field(() => Int, { nullable: true })
+  @Column({ type: 'int', default: 0 })
+  rate: number;
+
+  @Column({ type: 'int', default: 0 })
+  counterRate: number;
 
   @Field(() => [ViewHistory], { nullable: true })
   @OneToMany(() => ViewHistory, (history) => history.contenido, {

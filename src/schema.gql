@@ -24,6 +24,7 @@ type Content {
   type: Type
   status: Status
   contentUrl: [String!]!
+  rate: Int
   viewingHistories: [ViewHistory!]
 }
 
@@ -83,6 +84,7 @@ type Query {
   users(paginationArgs: PaginationArgs!, validRolesArgs: ValidRolesArgs!): [User!]!
   user(id: String!): User!
   defaultSubscription(id: String!): Subscription!
+  getSubscription(userId2: String!): Subscription!
   countUser: Int!
   countSubscriptions: Int!
   viewHistory(id: Int!): ViewHistory!
@@ -90,6 +92,7 @@ type Query {
   support(id: String!): Support!
   contentAll(paginationContentArgs: PaginationContentArgs!): [Content!]!
   contentOne(id: String!): Content!
+  getRate(contentId: String!): Float!
   revalite: AuthResponse!
   review(id: String!): Review!
 }
@@ -152,6 +155,7 @@ input UpdateUserInput {
   firstName: String
   lastName: String
   id: String!
+  roles: [String!]
 }
 
 input UpdateSubscriptionInput {
@@ -209,6 +213,7 @@ input UpdateContentInput {
   status: Status
   contentUrl: [String!]
   id: String!
+  amount: Int
 }
 
 input SignupInput {

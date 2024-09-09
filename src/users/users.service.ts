@@ -55,6 +55,9 @@ export class UsersService {
         return await this.usersRepository.find({
           take: limit,
           skip: offset,
+          relations: {
+            subscription: true,
+          },
         });
 
       return this.usersRepository
